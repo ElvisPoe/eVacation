@@ -23,7 +23,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
-Route::resource('users', UsersController::class);
+Route::resource('users', UsersController::class)
+    ->can('viewAny', \App\Models\User::class);
 
 Route::get('applications', [ApplicationController::class, 'index'])
     ->name('applications.index')
@@ -33,7 +34,6 @@ Route::get('applications/{application}/{status}', [ApplicationController::class,
     ->can('update', \App\Models\Application::class);
 
 Route::get('applications/create', [ApplicationController::class, 'create'])->name('applications.create');
-    //->can('create', \App\Models\Application::class);
 
 Route::post('applications/store', [ApplicationController::class, 'store'])->name('applications.store');
 
