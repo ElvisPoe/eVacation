@@ -13,8 +13,10 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     public const ROLE = [
-      1 => 'Admin',
-      2 => 'Employee',
+        1 => 'Supervisor',
+        2 => 'Marketing',
+        3 => 'Engineering',
+        4 => 'Design',
     ];
 
     /**
@@ -52,5 +54,9 @@ class User extends Authenticatable
     public function applications()
     {
         return $this->hasMany(Application::class)->orderBy('created_at', 'desc');
+    }
+
+    public function getNameAttribute(): string {
+        return $this->first_name . ' ' . $this->last_name;
     }
 }

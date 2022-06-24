@@ -21,20 +21,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+Route::middleware('auth')->group(function (){
 
-Route::resource('users', UsersController::class)
-    ->can('viewAny', \App\Models\User::class);
+    // General Routes
+    Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
-Route::get('applications', [ApplicationController::class, 'index'])
-    ->name('applications.index')
-    ->can('viewAny', \App\Models\Application::class);
+    // Users Routes
+    Route::get('applications/create', [ApplicationController::class, 'create'])->name('applications.create');
+    Route::post('applications/store', [ApplicationController::class, 'store'])->name('applications.store');
 
-Route::get('applications/{application}/{status}', [ApplicationController::class, 'setStatus'])
-    ->can('update', \App\Models\Application::class);
-
-Route::get('applications/create', [ApplicationController::class, 'create'])->name('applications.create');
-
-Route::post('applications/store', [ApplicationController::class, 'store'])->name('applications.store');
+    // Admin Routes
+    Route::resource('users', UsersController::class);
+    Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
+    Route::get('applications/{application}/{status}', [ApplicationController::class, 'setStatus']);
+});
 
 require __DIR__.'/auth.php';

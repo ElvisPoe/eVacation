@@ -15,6 +15,8 @@ class Application extends Model
         'rejected' => 'Rejected'
     ];
 
+    protected $with = ['user'];
+
     protected $dates = ['datefrom', 'dateto'];
 
     protected $fillable = [

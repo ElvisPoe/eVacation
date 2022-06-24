@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use Carbon\Carbon;
 use App\Models\Application;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Services\ApplicationMails;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class ApplicationController extends Controller
 {
@@ -19,7 +18,7 @@ class ApplicationController extends Controller
     {
         $applications = Application::when($request->status, function ($query, $status){
             $query->where('status', $status);
-        })->get();
+        })->paginate(10);
 
         return view('admin.applications.index', [
             'filter' => $request->status,
@@ -44,11 +43,13 @@ class ApplicationController extends Controller
     public function setStatus(Application $application, $status, ApplicationMails $applicationMails)
     {
         if(array_key_exists($status, Application::STATUS)){
-            $application->status = Application::STATUS[$status];
+            $application->status = $status;
             $application->save();
 
             // Send Email
-            $applicationMails->statusUpdate($application, $status);
+            if(env('MAIL_ENABLE')){
+                $applicationMails->statusUpdate($application, $status);
+            }
         }
 
         return redirect()->route('dashboard');
@@ -67,15 +68,19 @@ class ApplicationController extends Controller
         ]);
         $attributes['user_id'] = auth()->user()->id;
 
-        // @TODO Needs a refactor so it will not count Weekend Days.
-
-        $datediff = strtotime($attributes['dateto']) - strtotime($attributes['datefrom']);
-        $attributes['days'] = $datediff / (60 * 60 * 24) + 1;
+        $dateFrom = Carbon::create($attributes['datefrom']);
+        $dateTo = Carbon::create($attributes['dateto']);
+        $vacationDays = $dateFrom->diffInDaysFiltered(function(Carbon $date) {
+            return !$date->isWeekend();
+        }, $dateTo);
+        $attributes['days'] = $vacationDays + 1;
 
         $application = Application::create($attributes);
 
         // Send Email
-        $applicationMails->new($application);
+        if(env('MAIL_ENABLE')){
+            $applicationMails->new($application);
+        }
 
         return redirect()->route('dashboard');
     }

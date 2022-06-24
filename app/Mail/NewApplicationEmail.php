@@ -30,7 +30,7 @@ class NewApplicationEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('noreply@example.com', 'EVacation')
+        return $this->from('noreply@example.com', 'eVacation')
                     ->view('emails.applications.new');
     }
 }

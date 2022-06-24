@@ -19,17 +19,17 @@
                     <div>
                         <div class="flex">
                             <div class="mb-3 w-full">
-                                <label for="datefrom" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Start Date</label>
+                                <label for="datefrom" class="block mb-2 text-sm font-medium text-gray-900">Start Date</label>
                                 <x-input id="datefrom" class="block mt-1 w-full" type="date" name="datefrom" value="{{ old('datefrom') }}" required />
                             </div>
                             <div class="mb-3 ml-3 w-full">
-                                <label for="dateto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">End Date</label>
+                                <label for="dateto" class="block mb-2 text-sm font-medium text-gray-900">End Date</label>
                                 <x-input id="dateto" class="block mt-1 w-full" type="date" name="dateto" value="{{ old('dateto') }}" onchange="checkDate()" required />
                             </div>
                         </div>
                         <div class="mb-3 w-full">
-                            <label for="reason" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Reason</label>
-                            <x-textarea id="reason" class="block mt-1 w-full" name="reason" value="{{ old('reason') }}" />
+                            <label for="reason" class="block mb-2 text-sm font-medium text-gray-900">Reason</label>
+                            <x-textarea id="reason" class="block mt-1 w-full" name="reason" placeholder="Personal reason..." value="{{ old('reason') }}" />
                         </div>
                     </div>
 

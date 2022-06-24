@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Application;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ApplicationFactory extends Factory
@@ -14,15 +15,19 @@ class ApplicationFactory extends Factory
      */
     public function definition()
     {
-        $datefrom = $this->faker->dateTimeThisMonth('2022-02-01');
-        $dateto = $this->faker->dateTimeThisMonth();
+        $dateFrom = Carbon::create($this->faker->dateTimeBetween('next Monday', 'next Monday +7 days'));
+        $dateTo = Carbon::create($this->faker->dateTimeBetween($dateFrom, $dateFrom->format('Y-m-d H:i:s').' +2 days'));
+        $vacationDays = $dateFrom->diffInDaysFiltered(function(Carbon $date) {
+            return !$date->isWeekend();
+        }, $dateTo);
+        $days = $vacationDays + 1;
 
         return [
             'user_id' => \App\Models\User::factory()->create(),
-            'datefrom' => $datefrom,
-            'dateto' => $dateto,
+            'datefrom' => $dateFrom,
+            'dateto' => $dateTo,
             'status' => array_rand(Application::STATUS),
-            'days' => 5,
+            'days' => $days,
             'reason' => $this->faker->sentence,
         ];
     }

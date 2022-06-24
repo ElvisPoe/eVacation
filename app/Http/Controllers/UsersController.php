@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 
@@ -15,8 +16,15 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+        $users = User::when($request->role, function ($query, $role){
+            $query->where('role', $role);
+        })->paginate(10);
+
         return view('admin.users.index', [
-            'users' => User::all()
+            'users' => $users,
+            'filters' => [
+                'role' => $request->role ? User::ROLE[$request->role] : 'All Users'
+            ]
         ]);
     }
 
@@ -39,7 +47,8 @@ class UsersController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['confirmed', Rules\Password::defaults()],
+            'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
 
         User::create([
@@ -47,7 +56,7 @@ class UsersController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => (int)$request->role
         ]);
 
         return redirect()->route('users.index');
@@ -90,8 +99,8 @@ class UsersController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['confirmed', Rules\Password::defaults()],
+            'email' => 'unique:users,email,'.$user->id,
+            'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
 
         $user->update([
@@ -99,7 +108,7 @@ class UsersController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role
+            'role' => (int)$request->role
         ]);
 
         return redirect()->route('users.index');
@@ -114,6 +123,6 @@ class UsersController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('users.index');
     }
 }

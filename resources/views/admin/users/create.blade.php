@@ -19,35 +19,38 @@
                     <div>
                         <div class="flex">
                             <div class="mb-3 w-full">
-                                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">First Name</label>
+                                <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">First Name</label>
                                 <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" value="{{ old('first_name') }}" required />
                             </div>
                             <div class="mb-3 ml-3 w-full">
-                                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Last Name</label>
+                                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
                                 <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" value="{{ old('last_name') }}" required />
                             </div>
                         </div>
                         <div class="flex">
                             <div class="mb-3 w-full">
-                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email</label>
+                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ old('email') }}" required />
                             </div>
                             <div class="mb-3 ml-3 w-full">
-                                <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Role</label>
+                                <label for="role" class="block mb-2 text-sm font-medium text-gray-900">Role</label>
                                 <x-select id="role" class="block mt-1 w-full" type="text" name="role" required>
-                                    <option value="1" @if(old('$user->role') == 1) selected @endif>Admin</option>
-                                    <option value="2" @if(old('$user->role') == 2) selected @endif>Employee</option>
+                                    @foreach(\App\Models\User::ROLE as $roleId => $role)
+                                        <option value="{{ $roleId }}" @if(old('$user->role') == $roleId) selected @endif>
+                                            {{ $role }}
+                                        </option>
+                                    @endforeach
                                 </x-select>
                             </div>
                         </div>
                         <div class="flex mt-8">
                             <div class="mb-3 w-full">
-                                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Password</label>
-                                <x-input id="password" class="block mt-1 w-full" type="password" name="password" />
+                                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                                <x-input id="password" class="block mt-1 w-full" type="password" name="password" value="password" />
                             </div>
                             <div class="mb-3 ml-3 w-full">
-                                <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Confirm password</label>
-                                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" />
+                                <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">Confirm password</label>
+                                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" value="password" name="password_confirmation" />
                             </div>
                         </div>
                     </div>
