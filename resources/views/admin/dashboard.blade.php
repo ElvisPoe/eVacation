@@ -61,7 +61,10 @@
                                             {{ $app->created_at->format('d-M-Y') }}
                                         </td>
                                         <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                            <x-button class="bg-white">{{ $app->status }}</x-button>
+                                            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-green-600 uppercase
+                                            last:mr-0 mr-1 {{ $app->status == 'approved' ? 'bg-green-200' : 'bg-red-200' }}">
+                                              {{ $app->status }}
+                                            </span>
                                         </td>
                                         <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex justify-end">
                                             <a href="/applications/{{ $app->id }}/approved" class="ml-1">

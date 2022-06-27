@@ -23,7 +23,7 @@ class ApplicationFactory extends Factory
         $days = $vacationDays + 1;
 
         return [
-            'user_id' => \App\Models\User::factory()->create(),
+            'user_id' => \App\Models\User::factory()->create(['role' => rand(2,5)]),
             'datefrom' => $dateFrom,
             'dateto' => $dateTo,
             'status' => array_rand(Application::STATUS),

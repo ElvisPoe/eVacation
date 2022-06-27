@@ -22,8 +22,13 @@ class HomeController extends Controller
 
         return view('user.dashboard', [
             'filter' => '',
+            'daysTaken' => array_sum(auth()->user()->applications->where('status', 'approved')->pluck('days')->toArray()),
             'applications' => auth()->user()->applications
         ]);
 
+    }
+
+    public function adminDashboard() {
+        return 'Admin';
     }
 }

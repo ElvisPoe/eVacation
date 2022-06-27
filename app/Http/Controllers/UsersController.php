@@ -70,7 +70,7 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        return view('admin.users.edit', [
+        return view('admin.users.show', [
             'user' => $user
         ]);
     }
@@ -99,6 +99,7 @@ class UsersController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => 'unique:users,email,'.$user->id,
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
@@ -106,6 +107,7 @@ class UsersController extends Controller
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'days' => $request->days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role

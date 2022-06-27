@@ -14,9 +14,10 @@ class User extends Authenticatable
 
     public const ROLE = [
         1 => 'Supervisor',
-        2 => 'Marketing',
-        3 => 'Engineering',
-        4 => 'Design',
+        2 => 'Employee',
+        3 => 'Marketing',
+        4 => 'Engineering',
+        5 => 'Design',
     ];
 
     /**
@@ -27,6 +28,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'days',
         'email',
         'role',
         'password',
@@ -50,6 +52,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->role === 1;
+    }
 
     public function applications()
     {

@@ -1,3 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+.button-red {
+    background: #b40404;
+}
+
+.button-green {
+    background: #006500;
+}

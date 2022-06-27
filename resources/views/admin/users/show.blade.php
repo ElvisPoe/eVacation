@@ -1,34 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Applications') }}
+            {{ __('Show User') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="flex justify-between items-center p-6 bg-white border-b border-gray-200">
+                <div class="flex p-6 bg-white border-b border-gray-200 justify-between">
+                    <div>{{ $user->name }}'s applications</div>
                     <div>
-                        @if($filter)
-                            {{ \App\Models\Application::STATUS[$filter] }} Applications
-                        @else
-                            All Applications
-                        @endif
-                    </div>
-                    <div>
-                        <a href="{{ route('applications.index') }}" class="ml-1">
-                            <x-button>All</x-button>
-                        </a>
-                        <a href="?status=approved" class="ml-1">
-                            <x-button>Approved</x-button>
-                        </a>
-                        <a href="?status=pending" class="ml-1">
-                            <x-button>Pending</x-button>
-                        </a>
-                        <a href="?status=rejected" class="ml-1">
-                            <x-button>Rejected</x-button>
-                        </a>
+                        <b>{{ array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray()) }}</b>
+                        days taken of <b>{{ $user->days }}</b>
                     </div>
                 </div>
             </div>
@@ -62,7 +46,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($applications as $app)
+                            @foreach($user->applications as $app)
                                 <tr class="bg-white border-b">
                                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ $app->user->name }}
@@ -80,10 +64,7 @@
                                         {{ $app->created_at->format('d-M-Y') }}
                                     </td>
                                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-green-600 uppercase
-                                        last:mr-0 mr-1 {{ $app->status == 'approved' ? 'bg-green-200' : 'bg-red-200' }}">
-                                          {{ $app->status }}
-                                        </span>
+                                        <x-button class="bg-white">{{ $app->status }}</x-button>
                                     </td>
                                     <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap flex justify-end">
                                         @if($app->status == 'approved')
@@ -110,9 +91,8 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-6">
-                {{ $applications->links() }}
-            </div>
+
         </div>
     </div>
+
 </x-app-layout>

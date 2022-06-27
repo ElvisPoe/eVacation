@@ -3,7 +3,6 @@
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('dashboard');
 });
 
 Route::middleware('auth')->group(function (){
@@ -29,8 +28,10 @@ Route::middleware('auth')->group(function (){
     // Users Routes
     Route::get('applications/create', [ApplicationController::class, 'create'])->name('applications.create');
     Route::post('applications/store', [ApplicationController::class, 'store'])->name('applications.store');
+});
 
-    // Admin Routes
+// Admin Routes
+Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('users', UsersController::class);
     Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
     Route::get('applications/{application}/{status}', [ApplicationController::class, 'setStatus']);

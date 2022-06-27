@@ -57,7 +57,7 @@
 
             document.getElementById("error-message").classList.add("hidden");
 
-            if (new Date(dateto).getTime() <= new Date(datefrom).getTime()) {
+            if (new Date(dateto).getTime() < new Date(datefrom).getTime()) {
                 document.getElementById("error-message").classList.remove("hidden");
                 document.getElementById("dateto").value = ''
             }

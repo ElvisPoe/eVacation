@@ -12,7 +12,7 @@
                     <div>{{ $user->first_name . ' ' . $user->last_name }}</div>
                     <div>
                         <b>{{ array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray()) }}</b>
-                        days taken of <b>{{ env('TOTAL_DAYS') }}</b>
+                        days taken of <b>{{ $user->days }}</b>
                     </div>
                 </div>
             </div>
@@ -30,6 +30,10 @@
                             <div class="mb-3 ml-3 w-full">
                                 <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900">Last Name</label>
                                 <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" value="{{ $user->last_name }}" required />
+                            </div>
+                            <div class="mb-3 ml-3 w-full">
+                                <label for="days" class="block mb-2 text-sm font-medium text-gray-900">Days</label>
+                                <x-input id="days" class="block mt-1 w-full" type="text" name="days" value="{{ $user->days }}" required />
                             </div>
                         </div>
                         <div class="flex">

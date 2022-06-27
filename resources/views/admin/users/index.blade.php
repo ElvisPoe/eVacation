@@ -48,10 +48,7 @@
                             <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase">
-                                    First Name
-                                </th>
-                                <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase">
-                                    Last Name
+                                    Employee
                                 </th>
                                 <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase">
                                     Email
@@ -60,7 +57,6 @@
                                     Role
                                 </th>
                                 <th scope="col" class="py-6 px-6 text-xs font-medium tracking-wider text-gray-700 uppercase">
-                                    Actions
                                 </th>
                             </tr>
                             </thead>
@@ -68,10 +64,7 @@
                             @foreach($users as $user)
                                 <tr class="bg-white border-b">
                                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ $user->first_name }}
-                                    </td>
-                                    <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ $user->last_name }}
+                                        {{ $user->name }}
                                     </td>
                                     <td class="py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ $user->email }}
@@ -81,6 +74,9 @@
                                     </td>
                                     <td class="flex justify-center py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
                                         <x-button class="bg-white">
+                                            <a href="{{ route('users.show', $user) }}">Show</a>
+                                        </x-button>
+                                        <x-button class="bg-white ml-1">
                                             <a href="{{ route('users.edit', $user) }}">Edit</a>
                                         </x-button>
                                         <div class="ml-1">
