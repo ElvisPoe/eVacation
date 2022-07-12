@@ -73,23 +73,12 @@
                                         {{ \App\Models\User::ROLE[$user->role] }}
                                     </td>
                                     <td class="flex justify-center py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <a href="{{ route('users.show', $user) }}">
-                                            <x-button class="mr-1">Show</x-button>
+                                        <a href="{{ route('users.show', $user) }}" class="mr-1">
+                                            <x-button>Show</x-button>
                                         </a>
                                         <a href="{{ route('users.edit', $user) }}">
-                                            <x-button>
-                                                Edit
-                                            </x-button>
+                                            <x-button>Edit</x-button>
                                         </a>
-{{--                                        <div>--}}
-{{--                                            <form action="{{route('users.destroy', $user)}}" method="POST">--}}
-{{--                                                @method('DELETE')--}}
-{{--                                                @csrf--}}
-{{--                                                <x-button class="bg-white">--}}
-{{--                                                    Delete--}}
-{{--                                                </x-button>--}}
-{{--                                            </form>--}}
-{{--                                        </div>--}}
                                     </td>
                                 </tr>
                             @endforeach
