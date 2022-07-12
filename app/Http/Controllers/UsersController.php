@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Days;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -51,12 +52,18 @@ class UsersController extends Controller
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
 
-        User::create([
+        $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role
+        ]);
+
+        Days::create([
+            'user_id' => $user->id,
+            'days' => 21,
+            'year' => date('Y')
         ]);
 
         return redirect()->route('users.index');

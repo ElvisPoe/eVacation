@@ -12,7 +12,7 @@
                     <div>{{ $user->name }}'s applications</div>
                     <div>
                         <b>{{ array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray()) }}</b>
-                        days taken of <b>{{ $user->days }}</b>
+                        days taken of <b>{{ $user->currentYear->days }}</b>
                     </div>
                 </div>
             </div>

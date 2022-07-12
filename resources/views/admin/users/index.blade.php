@@ -73,21 +73,23 @@
                                         {{ \App\Models\User::ROLE[$user->role] }}
                                     </td>
                                     <td class="flex justify-center py-4 px-6 text-sm font-medium text-gray-900 whitespace-nowrap text-center">
-                                        <x-button class="bg-white">
-                                            <a href="{{ route('users.show', $user) }}">Show</a>
-                                        </x-button>
-                                        <x-button class="bg-white ml-1">
-                                            <a href="{{ route('users.edit', $user) }}">Edit</a>
-                                        </x-button>
-                                        <div class="ml-1">
-                                            <form action="{{route('users.destroy', $user)}}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <x-button class="bg-white">
-                                                    Delete
-                                                </x-button>
-                                            </form>
-                                        </div>
+                                        <a href="{{ route('users.show', $user) }}">
+                                            <x-button class="mr-1">Show</x-button>
+                                        </a>
+                                        <a href="{{ route('users.edit', $user) }}">
+                                            <x-button>
+                                                Edit
+                                            </x-button>
+                                        </a>
+{{--                                        <div>--}}
+{{--                                            <form action="{{route('users.destroy', $user)}}" method="POST">--}}
+{{--                                                @method('DELETE')--}}
+{{--                                                @csrf--}}
+{{--                                                <x-button class="bg-white">--}}
+{{--                                                    Delete--}}
+{{--                                                </x-button>--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
                                     </td>
                                 </tr>
                             @endforeach

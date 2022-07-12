@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use function Symfony\Component\Translation\t;
 
 class User extends Authenticatable
 {
@@ -28,7 +29,6 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
-        'days',
         'email',
         'role',
         'password',
@@ -55,12 +55,20 @@ class User extends Authenticatable
 
     public function getIsAdminAttribute(): bool
     {
-        return $this->role === 1;
+        return (int)$this->role === 1;
     }
 
     public function applications()
     {
         return $this->hasMany(Application::class)->orderBy('created_at', 'desc');
+    }
+
+    public function days(){
+        return $this->hasMany(Days::class);
+    }
+
+    public function getCurrentYearAttribute(){
+        return $this->days()->where('year', date('Y'))->first();
     }
 
     public function getNameAttribute(): string {

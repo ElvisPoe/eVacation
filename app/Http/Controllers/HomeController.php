@@ -14,7 +14,7 @@ class HomeController extends Controller
 
     public function dashboard()
     {
-        if(auth()->user()->role === 1){
+        if(auth()->user()->isAdmin){
             return view('admin.dashboard', [
                 'applications' => Application::orderBy('created_at')->where('status', 'pending')->paginate(10)
             ]);
