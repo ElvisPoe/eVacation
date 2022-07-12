@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Days;
+use App\Models\Period;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -60,11 +60,8 @@ class UsersController extends Controller
             'role' => (int)$request->role
         ]);
 
-        Days::create([
-            'user_id' => $user->id,
-            'days' => 21,
-            'year' => date('Y')
-        ]);
+        Period::create(['user_id' => $user->id, 'days' => 21, 'year' => date('Y')]);
+        Period::create(['user_id' => $user->id, 'days' => 21, 'year' => date('Y') + 1]);
 
         return redirect()->route('users.index');
 
@@ -90,7 +87,8 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         return view('admin.users.edit', [
-            'user' => $user
+            'user' => $user,
+            'daysTakenThisYear' => array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray())
         ]);
 
     }
@@ -106,7 +104,6 @@ class UsersController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => 'unique:users,email,'.$user->id,
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
@@ -114,7 +111,6 @@ class UsersController extends Controller
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'days' => $request->days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role

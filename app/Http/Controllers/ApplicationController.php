@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use Carbon\Carbon;
+use App\Models\Period;
 use App\Models\Application;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Services\ApplicationMails;
@@ -45,6 +47,12 @@ class ApplicationController extends Controller
         if(array_key_exists($status, Application::STATUS)){
             $application->status = $status;
             $application->save();
+
+            if($status === 'approved'){
+                $period = Period::find($application->user->periods->where('year', date('Y'))->first()->id);
+                $period->days = $period->days - $application->days;
+                $period->save();
+            }
 
             // Send Email
             if(env('MAIL_ENABLE')){

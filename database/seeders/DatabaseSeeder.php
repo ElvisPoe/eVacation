@@ -26,20 +26,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create User Days
-        \App\Models\Days::create([
+        \App\Models\Period::create([
             'user_id' => $user->id,
             'days' => 21,
             'year' => date('Y')
         ]);
-        \App\Models\Days::create([
+        \App\Models\Period::create([
             'user_id' => $user->id,
             'days' => 21,
-            'year' => 2023
-        ]);
-        \App\Models\Days::create([
-            'user_id' => $user->id,
-            'days' => 21,
-            'year' => 2024
+            'year' => date('Y') + 1
         ]);
 
         // Create Application

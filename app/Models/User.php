@@ -60,15 +60,15 @@ class User extends Authenticatable
 
     public function applications()
     {
-        return $this->hasMany(Application::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Application::class)->orderBy('created_at', 'desc')->currentYear();
     }
 
-    public function days(){
-        return $this->hasMany(Days::class);
+    public function periods(){
+        return $this->hasMany(Period::class);
     }
 
     public function getCurrentYearAttribute(){
-        return $this->days()->where('year', date('Y'))->first();
+        return $this->periods()->where('year', date('Y'))->first();
     }
 
     public function getNameAttribute(): string {

@@ -27,6 +27,11 @@ class Application extends Model
         'reason',
     ];
 
+    public function scopeCurrentYear($query)
+    {
+        return $query->whereYear('created_at', '=', date('Y'));
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
