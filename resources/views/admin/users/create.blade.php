@@ -43,6 +43,12 @@
                                 </x-select>
                             </div>
                         </div>
+                        <div class="flex">
+                            <div class="mb-3 w-full">
+                                <label for="days" class="block mb-2 text-sm font-medium text-gray-900">Default Days</label>
+                                <x-input id="days" class="block mt-1 w-full" type="number" name="days" value="{{ config('app.defaultDays') }}" min="0" max="100" required />
+                            </div>
+                        </div>
                         <div class="flex mt-8">
                             <div class="mb-3 w-full">
                                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>

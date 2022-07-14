@@ -30,6 +30,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'days',
         'role',
         'password',
     ];
@@ -58,6 +59,14 @@ class User extends Authenticatable
         return (int)$this->role === 1;
     }
 
+    public function getCurrentYearAttribute(){
+        return $this->periods()->where('year', date('Y'))->first();
+    }
+
+    public function getNameAttribute(): string {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function applications()
     {
         return $this->hasMany(Application::class)->orderBy('created_at', 'desc')->currentYear();
@@ -65,13 +74,5 @@ class User extends Authenticatable
 
     public function periods(){
         return $this->hasMany(Period::class);
-    }
-
-    public function getCurrentYearAttribute(){
-        return $this->periods()->where('year', date('Y'))->first();
-    }
-
-    public function getNameAttribute(): string {
-        return $this->first_name . ' ' . $this->last_name;
     }
 }

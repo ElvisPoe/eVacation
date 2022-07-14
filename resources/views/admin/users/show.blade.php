@@ -11,8 +11,9 @@
                 <div class="flex p-6 bg-white border-b border-gray-200 justify-between">
                     <div>{{ $user->name }}'s applications</div>
                     <div>
-                        <b>{{ array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray()) }}</b>
-                        days taken of <b>{{ $user->currentYear->days }}</b>
+                        <b>{{ $daysTakenThisYear }}</b>
+                        days taken from
+                        <b>{{ $user->days }}</b>
                     </div>
                 </div>
             </div>

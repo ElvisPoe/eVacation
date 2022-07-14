@@ -12,8 +12,8 @@
                     <div>{{ $user->first_name . ' ' . $user->last_name }}</div>
                     <div>
                         <b>{{ $daysTakenThisYear }}</b>
-                        days taken in
-                        <b>{{ date('Y') }}</b>
+                        days taken from
+                        <b>{{ $user->days }}</b>
                     </div>
                 </div>
             </div>
@@ -52,6 +52,12 @@
                             </div>
                             <div class="flex">
                                 <div class="mb-3 w-full">
+                                    <label for="days" class="block mb-2 text-sm font-medium text-gray-900">Default Days</label>
+                                    <x-input id="days" class="block mt-1 w-full" type="number" name="days" value="{{ $user->days }}" min="0" max="100" required />
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <div class="mb-3 w-full">
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                                     <x-input id="password" class="block mt-1 w-full" type="password" name="password" />
                                 </div>
@@ -75,13 +81,20 @@
                         @endif
                     </div>
                     <div class="w-1/4">
-                        @foreach($user->periods as $period)
+                        @forelse($user->periods as $period)
                             <div class="mb-3 w-full">
                                 <label for="year-{{ $period->id }}" class="block mb-2 text-sm font-medium text-gray-900">{{ $period->year }}</label>
                                 <x-input id="year-{{ $period->id }}" class="block mt-1 w-full" type="number" min="0" max="100" name="year-{{ $period->id }}"
                                          value="{{ $period->days }}" required />
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="text-center mt-8"><b>No periods yet!</b></div>
+                        @endforelse
+                        <div class="flex justify-center mt-8">
+                            <a href="{{ route('users.create.period') }}" class="ml-1">
+                                <x-button type="button" title="Adding next year will empty the current year days">Add Year</x-button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </form>

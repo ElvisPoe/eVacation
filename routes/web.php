@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function (){
 // Admin Routes
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::resource('users', UsersController::class);
+    Route::get('users/create/year', [UsersController::class, 'createYear'])->name('users.create.period');
     Route::get('applications', [ApplicationController::class, 'index'])->name('applications.index');
     Route::get('applications/{application}/{status}', [ApplicationController::class, 'setStatus']);
 });

@@ -17,6 +17,8 @@ return [
 
     'logo' => env('APP_LOGO', null),
 
+    'defaultDays' => 22,
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

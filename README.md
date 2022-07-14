@@ -15,7 +15,8 @@ You can run php artisan migrate --seed for dummy admin user.
 
 #### I used the Laravel Breeze Starter Kit for a quick Register/Login functionality.
 
-#### Supervisor account: admin@supervisor.test | password
+#### Supervisor account: admin@evacation.test | password
+#### User account: user@evacation.test | password
 
 In the first page you can see a list with the most recent pending applications.
 You can quickly Approve or Reject them from here.

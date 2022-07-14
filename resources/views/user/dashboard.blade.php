@@ -10,7 +10,7 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="flex justify-between items-center p-6 bg-white border-b border-gray-200">
-                    <div>My Applications (<b>{{ $daysTaken }}</b> days taken of <b>{{ auth()->user()->currentYear->days }}</b>)</div>
+                    <div>My Applications (<b>{{ $daysTaken }}</b> days taken of <b>{{ auth()->user()->days }}</b>)</div>
                     <div>
                         <a href="{{ route('applications.create') }}" class="ml-1">
                             <x-button>Create Application</x-button>

@@ -47,6 +47,7 @@ class UsersController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['confirmed', Rules\Password::defaults()],
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
@@ -55,16 +56,42 @@ class UsersController extends Controller
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'days' => $request->days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role
         ]);
 
-        Period::create(['user_id' => $user->id, 'days' => 21, 'year' => date('Y')]);
-        Period::create(['user_id' => $user->id, 'days' => 21, 'year' => date('Y') + 1]);
+        Period::create(['user_id' => $user->id, 'days' => $user->days, 'year' => date('Y')]);
 
         return redirect()->route('users.index');
 
+    }
+
+    /*
+     * Create next year-period for each user
+     *
+     * */
+    public function createYear(){
+
+        foreach (User::all() as $user) {
+
+            $nextYear = $user->periods->count() ? $user->periods->last()->year + 1 : date('Y');
+            if($nextYear - date('Y') > 1) {
+                continue;
+            }
+
+            $user->periods->count() ? $user->periods->last()->delete() : null;
+
+            Period::create([
+                'user_id' => $user->id,
+                'days' => $user->periods->count() ? $user->periods->last()->days + $user->days : $user->days,
+                'year' => $user->periods->count() ? $nextYear : date('Y')
+            ]);
+
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -75,7 +102,8 @@ class UsersController extends Controller
     public function show(User $user)
     {
         return view('admin.users.show', [
-            'user' => $user
+            'user' => $user,
+            'daysTakenThisYear' => array_sum($user->applications->where('status', 'approved')->pluck('days')->toArray())
         ]);
     }
 
@@ -104,6 +132,7 @@ class UsersController extends Controller
         $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => 'unique:users,email,'.$user->id,
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
@@ -111,6 +140,7 @@ class UsersController extends Controller
         $user->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'days' => $request->days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role
