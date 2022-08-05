@@ -12,6 +12,7 @@ class Period extends Model
     protected $fillable = [
         'user_id',
         'days',
+        'sick_days',
         'year'
     ];
 }

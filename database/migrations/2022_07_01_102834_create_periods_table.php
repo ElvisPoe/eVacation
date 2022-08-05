@@ -17,6 +17,7 @@ class CreatePeriodsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->onDelete('cascade');
             $table->integer('days');
+            $table->integer('sick_days');
             $table->integer('year');
             $table->timestamps();
         });

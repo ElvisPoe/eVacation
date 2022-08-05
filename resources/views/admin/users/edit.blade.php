@@ -52,8 +52,12 @@
                             </div>
                             <div class="flex">
                                 <div class="mb-3 w-full">
-                                    <label for="days" class="block mb-2 text-sm font-medium text-gray-900">Default Days</label>
+                                    <label for="days" class="block mb-2 text-sm font-medium text-gray-900">Leave Days</label>
                                     <x-input id="days" class="block mt-1 w-full" type="number" name="days" value="{{ $user->days }}" min="0" max="100" required />
+                                </div>
+                                <div class="mb-3 ml-3 w-full">
+                                    <label for="sick_days" class="block mb-2 text-sm font-medium text-gray-900">Sick Days</label>
+                                    <x-input id="sick_days" class="block mt-1 w-full" type="number" name="sick_days" value="{{ $user->sick_days }}" min="0" max="100" required />
                                 </div>
                             </div>
                             <div class="flex">

@@ -48,6 +48,7 @@ class UsersController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'days' => ['required', 'numeric', 'min:0', 'max:100'],
+            'sick_days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['confirmed', Rules\Password::defaults()],
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
@@ -57,12 +58,13 @@ class UsersController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'days' => $request->days,
+            'sick_days' => $request->sick_days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role
         ]);
 
-        Period::create(['user_id' => $user->id, 'days' => $user->days, 'year' => date('Y')]);
+        Period::create(['user_id' => $user->id, 'days' => $user->days, 'sick_days' => $user->sick_days, 'year' => date('Y')]);
 
         return redirect()->route('users.index');
 
@@ -133,6 +135,7 @@ class UsersController extends Controller
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'days' => ['required', 'numeric', 'min:0', 'max:100'],
+            'sick_days' => ['required', 'numeric', 'min:0', 'max:100'],
             'email' => 'unique:users,email,'.$user->id,
             'role' => ['required', Rule::in(array_keys(User::ROLE))]
         ]);
@@ -141,6 +144,7 @@ class UsersController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'days' => $request->days,
+            'sick_days' => $request->sick_days,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => (int)$request->role
