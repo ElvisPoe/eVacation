@@ -1,15 +1,13 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+![Logo](/public/logo.png?raw=true "EasyERP Logo")
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About eVacation
 
-## Welcome to eVacation
-
-### Installation
+- Employee Managing tool for leave requests.
+- Every user has a preset of days.
+- On every request user selects dates and writes a reason (optional).
+- Manager can see pending, canceled and accepted requests.
+- On every request an email is sent to manager and on approve/reject an email is sent to employee.
+## Installation
 Clone the repo. Run composer install. Run npm run dev.
 You can run php artisan migrate --seed for dummy admin user.
 
@@ -43,3 +41,26 @@ When an email button Approve/Reject is clicked the response is sent to the emplo
 The email is sent even if we Approve/Reject the application in the App.
 
 In App/Services/SlackService I connected the app with a Slack Channel, so we can fetch users from there.
+
+## Screenshots
+
+### Login
+![Login](/public/login.png?raw=true "Login Page")
+
+### User Dashboard - All Requests
+![User](/public/user_dashboard_all.png?raw=true "User requests")
+
+### User Dashboard - New Request
+![User](/public/user_new_request.png?raw=true "New request")
+
+
+
+
+### Admin Dashboard - Pending Requests
+![Admin](/public/admin_dashboard_pending.png?raw=true "Pending")
+
+### Admin Dashboard - All Requests
+![Admin](/public/admin_dashboard_all.png?raw=true "All")
+
+### Admin Dashboard - All Users
+![Admin](/public/admin_dashboard_users.png?raw=true "Users")
